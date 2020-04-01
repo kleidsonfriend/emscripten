@@ -1498,9 +1498,12 @@ def calculate(temp_files, in_temp, stdout_, stderr_, forced=[]):
     more = False
     for ident, deps in deps_info.items():
       if ident in need.undefs and ident not in added:
+        # certain symbols in deps_info.json don't exist in the wasm backend
         added.add(ident)
         more = True
         for dep in deps:
+          if shared.Settings.WASM_BACKEND and dep in ['_get_environ']:
+            continue
           need.undefs.add(dep)
           if shared.Settings.VERBOSE:
             logger.debug('adding dependency on %s due to deps-info on %s' % (dep, ident))

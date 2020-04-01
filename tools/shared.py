@@ -1795,6 +1795,8 @@ class Building(object):
       if all_external_symbols:
         # Filter out symbols external/JS symbols
         c_exports = [e for e in c_exports if e not in all_external_symbols]
+        if 'main' in c_exports:
+          c_exports.remove('main')
       for export in c_exports:
         cmd += ['--export', export]
 
@@ -1810,14 +1812,19 @@ class Building(object):
         '--initial-memory=%d' % Settings.INITIAL_MEMORY,
       ]
       use_start_function = Settings.STANDALONE_WASM
+
       if not use_start_function:
-        cmd += ['--no-entry']
+        if all_external_symbols:
+          cmd += ['--entry=main']
+        else:
+          cmd += ['--no-entry']
       if not Settings.ALLOW_MEMORY_GROWTH:
         cmd.append('--max-memory=%d' % Settings.INITIAL_MEMORY)
       elif Settings.MAXIMUM_MEMORY != -1:
         cmd.append('--max-memory=%d' % Settings.MAXIMUM_MEMORY)
       if not Settings.RELOCATABLE:
         cmd.append('--global-base=%s' % Settings.GLOBAL_BASE)
+      print(cmd)
 
     cmd += opts
 

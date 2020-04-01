@@ -8917,7 +8917,7 @@ if not shared.Settings.WASM_BACKEND:
 wasm0 = make_run('wasm0', emcc_args=['-O0'])
 wasm0g = make_run('wasm0g', emcc_args=['-O0', '-g'])
 wasm1 = make_run('wasm1', emcc_args=['-O1'])
-wasm2 = make_run('wasm2', emcc_args=['-O2'])
+wasm2 = make_run('wasm2', emcc_args=['-O2'], settings={'LLD_REPORT_UNDEFINED': 1})
 wasm2g = make_run('wasm2g', emcc_args=['-O2', '-g'])
 wasm3 = make_run('wasm3', emcc_args=['-O3'])
 wasms = make_run('wasms', emcc_args=['-Os'])
