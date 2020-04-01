@@ -760,6 +760,7 @@ LibraryManager.library = {
 #endif
   },
 
+#if !WASM_BACKEND
   // This object can be modified by the user during startup, which affects
   // the initial values of the environment accessible by getenv. (This works
   // in both fastcomp and upstream.
@@ -924,6 +925,7 @@ LibraryManager.library = {
     }
     return 0;
   },
+#endif
 
   getloadavg: function(loadavg, nelem) {
     // int getloadavg(double loadavg[], int nelem);
